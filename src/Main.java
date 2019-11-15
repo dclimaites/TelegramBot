@@ -11,8 +11,6 @@ public class Main {
 			Timer timer = new Timer();
 			timer.scheduleAtFixedRate(bot, 0, 10000);
 			
-			System.out.println("Finalizou");
-			
 		} catch (Exception e) {
 			System.out.println("Erro na execução do BOT");
 			System.out.println(e);
