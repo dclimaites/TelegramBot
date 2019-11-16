@@ -24,7 +24,7 @@ public class MessageManager {
 		
 		Cliente cliente = new Cliente(userMessage.message().chat().id());
 		
-		if(mensagem)
+		if(comandosDoUsuario.contains(mensagem))
 			return new DepositarInstruction(cliente);
 		
 		return new NaoDefinidoInstruction();
