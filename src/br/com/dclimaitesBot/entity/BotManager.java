@@ -28,7 +28,7 @@ public class BotManager extends TimerTask {
 	
 	public BotManager() {
 		bot = TelegramBotAdapter.build("988597064:AAHDM9tK1-wt52z4rfE8wqsYBFlqogTBZeA");
-		offSet = 0;
+		offSet = 867355869;
 		messageManager = new MessageManager();
 	}
 
@@ -57,8 +57,8 @@ public class BotManager extends TimerTask {
 				// verificação de ação de chat foi enviada com sucesso
 				System.out.println("Resposta de Chat ActionEnviada?" + baseResponse.isOk());
 				
-				
-				Instruction instruction = messageManager.TreateMessage(update);
+				System.out.println("Últim offSet" + offSet);
+				Instruction instruction = messageManager.TratarMensagem(update);
 				String retorno = instruction.process();
 				
 				// envio da mensagem de resposta

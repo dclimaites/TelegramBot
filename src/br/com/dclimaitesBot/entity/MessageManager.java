@@ -5,22 +5,29 @@ import java.util.HashSet;
 
 import com.pengrad.telegrambot.model.Update;
 
+import br.com.dclimaitesBot.entity.instructions.DepositarInstruction;
+import br.com.dclimaitesBot.entity.instructions.NaoDefinidoInstruction;
 import br.com.dclimaitesBot.interfaces.Instruction;
 
 public class MessageManager {
-	private Collection<String> userPossibleQuestions;
+	private Collection<String> comandosDoUsuario;
 	
 	public MessageManager() {
-		userPossibleQuestions = new HashSet<String>();
+		comandosDoUsuario = new HashSet<String>();
 		
-		userPossibleQuestions.add("Gostaria de depositar?");
-		userPossibleQuestions.add("Qual é o valor que gostaria de sacar?");
+		comandosDoUsuario.add("/sacar");
+		comandosDoUsuario.add("/depositar");
 	}
 	
-	public Instruction TreateMessage(Update userMessage) {
-		String teste;
+	public Instruction TratarMensagem(Update userMessage) {
+		String mensagem = userMessage.message().text();
+		
 		Cliente cliente = new Cliente(userMessage.message().chat().id());
-		return new DepositarInstruction(cliente);
+		
+		if(mensagem)
+			return new DepositarInstruction(cliente);
+		
+		return new NaoDefinidoInstruction();
 			
 	}
 	
