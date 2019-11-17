@@ -11,24 +11,39 @@ import br.com.dclimaitesBot.interfaces.Instruction;
 
 public class MessageManager {
 	private Collection<String> comandosDoUsuario;
-	
+
 	public MessageManager() {
 		comandosDoUsuario = new HashSet<String>();
-		
+
 		comandosDoUsuario.add("/sacar");
 		comandosDoUsuario.add("/depositar");
 	}
-	
-	public Instruction TratarMensagem(Update userMessage) {
+
+	public InstructionBase TratarMensagem(Update userMessage, Cliente cliente) {
 		String mensagem = userMessage.message().text();
-		
-		Cliente cliente = new Cliente(userMessage.message().chat().id());
-		
-		if(comandosDoUsuario.contains(mensagem))
-			return new DepositarInstruction(cliente);
-		
-		return new NaoDefinidoInstruction();
-			
+		if (isInstruction(mensagem))
+			switch (mensagem) {
+			case "/depositar":
+				cliente.setUltimaInstrucao(new DepositarInstruction(cliente));
+				return cliente.getUltimaInstrucao();
+			}
+		else {
+			InstructionBase ultimaInstrucoDoCliente = cliente.getUltimaInstrucao();
+			if (ultimaInstrucoDoCliente != null) {
+				ultimaInstrucoDoCliente.setDado(mensagem);
+				return cliente.getUltimaInstrucao();
+			}
+				
+		}
+
+		return new NaoDefinidoInstruction(cliente);
 	}
-	
+
+	private boolean isInstruction(String texto) {
+		if (!texto.isEmpty() && texto.startsWith("/"))
+			return true;
+		else
+			return false;
+	}
+
 }

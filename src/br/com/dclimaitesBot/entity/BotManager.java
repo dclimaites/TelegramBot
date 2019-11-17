@@ -1,6 +1,8 @@
 package br.com.dclimaitesBot.entity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.TelegramBotAdapter;
@@ -25,11 +27,13 @@ public class BotManager extends TimerTask {
 	private BaseResponse baseResponse;
 	private int offSet;
 	private MessageManager messageManager;
-	
+	private Map<String, Cliente> clientes;
+
 	public BotManager() {
 		bot = TelegramBotAdapter.build("988597064:AAHDM9tK1-wt52z4rfE8wqsYBFlqogTBZeA");
 		offSet = 867355869;
 		messageManager = new MessageManager();
+		clientes = new HashMap<String, Cliente>();
 	}
 
 	@Override
@@ -37,32 +41,33 @@ public class BotManager extends TimerTask {
 
 		try {
 
-			// executa comando no Telegram para obter as mensagens pendentes a partir de um off-set (limite inicial)
+			// executa comando no Telegram para obter as mensagens pendentes a partir de um
+			// off-set (limite inicial)
 			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(offSet));
-			
+
 			// lista de mensagens
 			List<Update> updates = updatesResponse.updates();
 			// análise de cada ação da mensagem
 			for (Update update : updates) {
 				// atualização do off-set
 				offSet = update.updateId() + 1;
-				//System.out.println("Recebendo mensagem:" + update.message().text());
-
-				SendChatAction sendMessage = new SendChatAction(update.message().chat().id(), ChatAction.typing.name());
+				// System.out.println("Recebendo mensagem:" + update.message().text());
+				
+				Cliente cliente = logarCliente(update.message().chat().id());
+				
+				SendChatAction sendMessage = new SendChatAction(cliente.getChatId(), ChatAction.typing.name());
 				// envio de "Escrevendo" antes de enviar a resposta
 				baseResponse = bot.execute(sendMessage);
 				
-				
-				
 				// verificação de ação de chat foi enviada com sucesso
 				System.out.println("Resposta de Chat ActionEnviada?" + baseResponse.isOk());
-				
+
 				System.out.println("Últim offSet" + offSet);
-				Instruction instruction = messageManager.TratarMensagem(update);
-				String retorno = instruction.process();
-				
+				InstructionBase instruction = messageManager.TratarMensagem(update, cliente);
+				SendMessage retorno = instruction.processar();
+
 				// envio da mensagem de resposta
-				sendResponse = bot.execute(new SendMessage(update.message().chat().id(), retorno));
+				sendResponse = bot.execute(retorno);
 				// verificação de mensagem enviada com sucesso
 				System.out.println("Mensagem Enviada?" + sendResponse.isOk());
 			}
@@ -70,5 +75,16 @@ public class BotManager extends TimerTask {
 			System.out.println(e);
 		}
 
+	}
+
+	private Cliente logarCliente(long chatIdCliente) {
+		Cliente cliente = clientes.get("" + chatIdCliente);
+		
+		if (cliente == null) {
+			cliente = new Cliente(chatIdCliente);
+			clientes.put("" + chatIdCliente, cliente);
+		}
+
+		return cliente;
 	}
 }

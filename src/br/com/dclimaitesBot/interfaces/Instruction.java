@@ -1,7 +1,7 @@
 package br.com.dclimaitesBot.interfaces;
 
-import br.com.dclimaitesBot.entity.Cliente;
+import com.pengrad.telegrambot.request.SendMessage;
 
 public interface Instruction {
-	String process();
+	SendMessage processar();
 }

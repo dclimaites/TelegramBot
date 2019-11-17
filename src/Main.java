@@ -9,7 +9,7 @@ public class Main {
 		BotManager bot = new BotManager();
 		try {
 			Timer timer = new Timer();
-			timer.scheduleAtFixedRate(bot, 0, 10000);
+			timer.scheduleAtFixedRate(bot, 0, 2000);
 			
 		} catch (Exception e) {
 			System.out.println("Erro na execução do BOT");
