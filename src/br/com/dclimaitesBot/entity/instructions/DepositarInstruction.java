@@ -28,8 +28,9 @@ public class DepositarInstruction extends InstructionBase {
 			if (valor <= 0)
 				return TratarRetornoSendMessage("Não é possível depositar esse valor");
 			else {
+				cliente.getConta().deposita(valor);
 				cliente.setUltimaInstrucao(null);
-				return TratarRetornoSendMessage("Valor depositado com sucesso");
+				return TratarRetornoSendMessage("Valor depositado com sucesso. Seu saldo restante é de: " + cliente.getConta().getSaldo());
 			}
 		}
 		catch(NumberFormatException fmtE) {

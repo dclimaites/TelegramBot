@@ -49,6 +49,9 @@ public abstract class Conta implements Comparable<Conta> {
 	}
 
 	public void saca(double valor) throws SaldoInsuficienteException {
+		if(valor > saldo)
+			throw new SaldoInsuficienteException(valor);
+		
 		this.saldo -= valor;
 	}
 
@@ -84,7 +87,7 @@ public abstract class Conta implements Comparable<Conta> {
 
 	@Override
 	public String toString() {
-		return "Conta [saldo=" + saldo + ", numero=" + numero + ", titular=" + titular + ", agencia=" + agencia + "]";
+		return "Agência: " + this.agencia + " Conta: " + this.numero;
 	}
 	
 	public int compareTo(Conta outraConta) {

@@ -60,16 +60,18 @@ public class BotManager extends TimerTask {
 				baseResponse = bot.execute(sendMessage);
 				
 				// verificação de ação de chat foi enviada com sucesso
-				System.out.println("Resposta de Chat ActionEnviada?" + baseResponse.isOk());
+/*				System.out.println("Resposta de Chat ActionEnviada?" + baseResponse.isOk());
 
-				System.out.println("Últim offSet" + offSet);
+				System.out.println("Últim offSet" + offSet);*/
+				
 				InstructionBase instruction = messageManager.TratarMensagem(update, cliente);
+				
 				SendMessage retorno = instruction.processar();
 
 				// envio da mensagem de resposta
 				sendResponse = bot.execute(retorno);
 				// verificação de mensagem enviada com sucesso
-				System.out.println("Mensagem Enviada?" + sendResponse.isOk());
+				/* System.out.println("Mensagem Enviada?" + sendResponse.isOk()); */
 			}
 		} catch (Exception e) {
 			System.out.println(e);
