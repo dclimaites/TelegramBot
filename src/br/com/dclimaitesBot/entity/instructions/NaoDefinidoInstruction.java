@@ -16,7 +16,7 @@ public class NaoDefinidoInstruction extends InstructionBase implements Instructi
 	@Override
 	public SendMessage processar() {
 		// TODO Auto-generated method stub
-		return new SendMessage(cliente.getChatId(), "Opção não encontrada");
+		return new SendMessage(cliente.getChatId(), "Opção não encontrada. \nUse uma das opções abaixo:\n /cadastrar\n /depositar\n /sacar");
 	}
 
 }

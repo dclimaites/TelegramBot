@@ -21,8 +21,11 @@ public class MessageManager {
 
 	public InstructionBase TratarMensagem(Update userMessage, Cliente cliente) {
 		String mensagem = userMessage.message().text();
+		
 		if (isInstruction(mensagem))
 			switch (mensagem) {
+			case "/cadastrar":
+				
 			case "/depositar":
 				cliente.setUltimaInstrucao(new DepositarInstruction(cliente));
 				return cliente.getUltimaInstrucao();

@@ -31,7 +31,7 @@ public class BotManager extends TimerTask {
 
 	public BotManager() {
 		bot = TelegramBotAdapter.build("988597064:AAHDM9tK1-wt52z4rfE8wqsYBFlqogTBZeA");
-		offSet = 867355869;
+		offSet = 867355896;
 		messageManager = new MessageManager();
 		clientes = new HashMap<String, Cliente>();
 	}
